@@ -1,0 +1,64 @@
+<?php
+
+/*•	Napišite program koji učitava niz brojeva (int) s tipkovnice i ispisuje ih unesenim 
+redoslijedom. Koristiti red (queue) kod rješavanja.*/
+
+class Stack
+{
+    private $stack = array();
+
+    public function Push($item)
+    {
+        $this->stack[] = $item;
+    }
+
+    public function Pop()
+    {
+        if($this->Size() < 1)
+        {
+            return null;
+        }
+
+        $last_key = $this->GetLastKey();
+        $item = $this->stack[$last_key];
+        unset($this->stack[$last_key]);
+        return $item;
+    }
+
+    private function Size()
+    {
+        $size = count($this->stack);
+        return $size;
+    }
+    
+    private function GetLastKey()
+    {
+        $last_key = (int)($this->Size() - 1);
+        if($last_key < 0)
+        {
+            $last_key = 0;
+        }
+        return $last_key;
+    }
+}
+
+$s = new Stack();
+
+while(true)
+{
+    $string = (string)readline("Unesite neki string: ");
+    $s->Push($string);
+
+    $odgovor = readline("Zelite li unijeti jos stringova? Y/N: ");
+
+    if ($odgovor == "N" || $odgovor == "n")
+    {
+        break;
+    }
+}
+echo "\n";
+while($b = $s->Pop())
+{
+    echo $b . "\n";
+}
+?>
