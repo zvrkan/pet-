@@ -1,0 +1,23 @@
+<?php
+
+include ("Stack.php");
+$s = new Stack();
+
+$input_string = readline("Unesi string: ");
+
+for ($i = 0; $i < strlen($input_string); $i++){
+    $s->Push($input_string[$i]);
+    //echo $input_string[$i];
+}
+
+echo "=== STACK ===\n";
+
+// dok ima elemenata za izbacivat (pop-at) petlja se vrti
+while($xyz = $s->Pop())
+{
+    echo $xyz . "\n";
+}
+
+
+
+?>
