@@ -1,0 +1,28 @@
+<?php
+
+include ("Queue.php");
+
+class Student {
+    var string $ime;
+    var string $prezime;
+}
+
+$q = new Queue();
+
+for ($i = 0; $i < 5; $i++){
+    $Student = new Student();
+    $Student->ime = readline("Ucitaj ime studenta: ");
+    $Student->prezime = readline ("Ucitaj prezime studenta: ");
+    $q->Enqueue($Student);
+}
+
+$i = 1;
+
+echo "\n===| Ispis Studenata - Queue |===\n";
+while ($item = $q->Dequeue()){
+    echo "\nStudent " . $i .".\n";
+    echo "Ime: ". $item->ime . "\n";
+    echo "Prezime: ". $item->prezime;
+    $i++;
+}
+
