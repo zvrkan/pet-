@@ -1,0 +1,97 @@
+<?php
+
+// Zadatak 1
+
+/*Potrebno je napraviti program koji analizira tekst s druge stranice. 
+U tekstu se nalaze placeholderi u vitičastim zagradama { }. Vaš zadatak je napisati 
+program koji koristi red (queue) kako bi u zadanom tekstu detektirao sve placeholdere 
+i ispisao ih na ekran po redu pojavljivanja.*/
+
+
+// QUEUE DEFINICIJA
+class Queue
+{
+    private $queue = array();
+
+    public function Enqueue($item)
+    {
+        $this->queue[] = $item;
+    }
+
+    public function Dequeue()
+    {
+        if($this->Size() < 1)
+        {
+            return null;
+        }
+
+        $lastKey = $this->getLastKey();
+
+        $item = null;
+
+        for($k=0; $k<=$lastKey; $k++)
+        {
+            if($k == 0)
+            {
+                $item = $this->queue[$k];
+            }
+            else
+            {
+                $new_k = $k - 1;
+
+                $this->queue[$new_k] = $this->queue[$k];
+            }
+        }
+
+        unset($this->queue[$lastKey]);
+
+        return $item;
+    }
+
+    public function Size()
+    {
+        return count($this->queue);
+    }
+
+    private function getLastKey()
+    {
+        $lastKey = (int)$this->Size() - 1;
+
+        if($lastKey < 0)
+        {
+            $lastKey = 0;
+        }
+
+        return $lastKey;
+    }
+}
+
+// GLAVNI PROGRAM
+$queue = new Queue();
+
+$text = "Lorem ipsum {LASTNAME} {FIRSTNAME} amet, consectetur adipiscing elit. Quisque aliquet, augue a commodo fringilla, lacus odio hendrerit turpis, venenatis facilisis purus diam vitae ligula. Sed eros enim, maximus sit amet sagittis at, {CITY} ut eros. Proin varius luctus dui, eget fringilla dolor aliquam ac. Mauris feugiat tempus diam, nec malesuada enim mattis malesuada. Fusce ipsum odio, accumsan quis {COUNTRY} ut, luctus tincidunt ex. Fusce vitae purus eros. Fusce nec finibus enim. Nulla id cursus dui. Nulla fermentum laoreet ipsum sit amet tristique. {DATE} pretium urna vel urna suscipit vehicula. Nam quis urna vitae sapien tincidunt commodo quis eget metus. Suspendisse tincidunt consectetur urna et aliquam. Nulla facilisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec molestie magna sed tellus lobortis iaculis. Ut {ADDRESS} cursus diam vitae laoreet. {DATE} erat volutpat. Quisque non diam ut mi mollis egestas. Ut mi ligula, ullamcorper sit amet sem vel, egestas {NUMBER} lorem.";
+
+$words_array = explode(" ", $text);
+
+foreach($words_array as $key => $word)
+{
+    $first_char = $word[0];
+    $last_char  = $word[(int)strlen($word)-1];
+
+    if($first_char == "{" && $last_char == "}")
+    {
+        $word = trim($word, "{");
+        $word = trim($word, "}");
+
+        $queue->Enqueue($word);
+    }
+}
+
+echo "Placeholder number: " . $queue->Size() . "\n";
+
+while($b = $queue->Dequeue())
+{
+    echo $b . "\n";
+}
+
+?>
